@@ -1,0 +1,12 @@
+html,body{
+  height:100%;
+}
+.container-fluid{
+  padding:0 !important;
+}
+#messagearea{
+  margin-bottom:0 !important;
+}
+#messages{
+  overflow-y: auto;
+}
