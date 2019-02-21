@@ -23,7 +23,15 @@
 			require("pages/Views/login.php");
 		}
 		else if($_GET["action"]=="suscribe"){
-			$manager->createUser($_POST["username"],$_POST["name"],$_POST["email"],$_POST["password"]);
+			$result=$manager->checkUsernames($_POST["username"]);
+			if(mysqli_fetch_assoc($result)==0){
+				$manager->createUser($_POST["username"],$_POST["name"],$_POST["email"],$_POST["password"]);
+				require("pages/Views/login.php");
+			}
+			else{
+				echo'<p class="bg-danger text-center font-weight-bold text-white">Username already in use</p>';
+				require("pages/Views/suscribe.php");
+			}
 		}
 		else if($_GET["action"]=="loginpage"){
 				require("pages/Views/login.php");

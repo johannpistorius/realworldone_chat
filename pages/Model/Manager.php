@@ -19,5 +19,15 @@
 			$results= $this-> executeRequest($sql);
 			return $results;
 		}
+		public function getOnlineStatus($username){
+			$sql = "Select onlinestatus from users where username='$username'";
+			$results= $this-> executeRequest($sql);
+			return $results;
+		}
+		public function checkUsernames($username){
+			$sql = "Select COUNT(*) from users where username='$username'";
+			$results= $this-> executeRequest($sql);
+			return $results;
+		}
 	}
 ?>

@@ -10,3 +10,9 @@ html,body{
 #messages{
   overflow-y: auto;
 }
+.connected{
+  color:green;
+}
+.disconnected{
+  color:red;
+}

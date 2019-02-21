@@ -6,11 +6,11 @@
 			<div class="col bg-info">
 				<!--Unread message container-->
 				<div class="row bg-warning border-bottom border-dark">
-					<a href=# style="text-decoration:none; padding-left:5%;" class="text-dark"><h5>Username 1 <span class="badge badge-secondary badge-pill bg-light text-danger">20</span></h5></a>
+					<a href=# style="text-decoration:none; padding-left:5%;" class="text-dark"><h5><i class="fas fa-circle connected"></i> Username 1 <span class="badge badge-secondary badge-pill bg-light text-danger">20</span></h5></a>
 				</div>
 				<!--Read message container-->
 				<div class="row bg-secondary border-bottom border-dark">
-					<a href=# style="text-decoration:none; padding-left:5%;" class="text-light"><h5>Username 2</h5></a>
+					<a href=# style="text-decoration:none; padding-left:5%;" class="text-light"><h5><i class="fas fa-circle disconnected"></i> Username 2</h5></a>
 				</div>
 				<!--Create new conversation with an existing user-->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light position-absolute fixed-bottom">
