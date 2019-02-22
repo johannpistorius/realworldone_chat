@@ -10,28 +10,23 @@
 			$result=$manager->getPass($_POST["username"],md5($pass));
 			if(mysqli_fetch_assoc($result)>0){
 				$_SESSION["user"]=$_POST["username"];
+				$manager->setOnlineStatus($_SESSION["user"],1);
 				require("pages/Views/chat.php");
 			}
 			else{
+				echo '<p class="bg-danger text-center font-weight-bold text-white">Wrong username or password</p>';
 				require("pages/Views/login.php");
-				echo '<p>Error: Wrong username or password</p>';
 			}
 		}
 		else if($_GET["action"]=="logout"){
+			$manager->setOnlineStatus($_SESSION["user"],0);
 			$_SESSION=array();
 			session_destroy();
 			require("pages/Views/login.php");
 		}
 		else if($_GET["action"]=="suscribe"){
-			$result=$manager->checkUsernames($_POST["username"]);
-			if(mysqli_fetch_assoc($result)==0){
-				$manager->createUser($_POST["username"],$_POST["name"],$_POST["email"],$_POST["password"]);
-				require("pages/Views/login.php");
-			}
-			else{
-				echo'<p class="bg-danger text-center font-weight-bold text-white">Username already in use</p>';
-				require("pages/Views/suscribe.php");
-			}
+			$manager->createUser($_POST["username"],$_POST["name"],$_POST["email"],$_POST["password"]);
+			require("pages/Views/login.php");
 		}
 		else if($_GET["action"]=="loginpage"){
 				require("pages/Views/login.php");

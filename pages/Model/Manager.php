@@ -9,11 +9,6 @@
 			$sql = "insert into users (username,name,email,password) values ('$username','$name','$email','$hash')";
 			$results = $this->executeRequest($sql);
 		}
-		public function getAllUsers(){
-			$sql = "Select * from users";
-			$results= $this-> executeRequest($sql);
-			return $results;
-		}
 		public function getPass($username,$pass){
 			$sql = "Select password from users where username='$username' and password='$pass'";
 			$results= $this-> executeRequest($sql);
@@ -24,10 +19,9 @@
 			$results= $this-> executeRequest($sql);
 			return $results;
 		}
-		public function checkUsernames($username){
-			$sql = "Select COUNT(*) from users where username='$username'";
+		public function setOnlineStatus($username, $status){
+			$sql = "Update users set onlinestatus='$status' where username='$username'";
 			$results= $this-> executeRequest($sql);
-			return $results;
 		}
 	}
 ?>

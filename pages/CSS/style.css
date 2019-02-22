@@ -16,3 +16,7 @@ html,body{
 .disconnected{
   color:red;
 }
+#conversationCollection{
+  overflow-x: hidden;
+  overflow-y: auto;
+}
