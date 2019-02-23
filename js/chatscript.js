@@ -158,7 +158,7 @@ function sendMessage(){
     method:'post',
     data:{conversationid:conversationid,message:message,time:time,userSource:userSource},
     success:function(data){
-      console.log("success");
+      $("#messagetext").val("");
     },error:function(data){
       console.log("error");
     }
