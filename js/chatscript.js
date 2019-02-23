@@ -1,14 +1,18 @@
 var countConversations=0;
+var countMessages=0;
+var currentRecipient="";
 
 window.addEventListener("load",function(){
   checkOnlineStatus();
   getConversations();
+  getMessagesCurrentUserSelected();
   setInterval(refresh,2000);
   document.getElementById("createConversation").addEventListener("click",createConversation);
 });
 function refresh(){
   checkOnlineStatus();
   getConversations();
+  getMessagesCurrentUserSelected();
 }
 
 function checkOnlineStatus(){
@@ -54,13 +58,15 @@ function getConversations(){
       if(checkConversationExists==false){
         $('#conversationCollection').append('<div id="conversation'+countConversations+'" class="row bg-secondary border-bottom border-dark"><a href=# style="text-decoration:none; padding-left:5%;" class="text-light"><h5><i class="fas fa-circle disconnected"></i> '+recipient+'</h5></a></div>');
         document.getElementById("conversation"+countConversations).addEventListener("click",function(){
-          for(i=0;i<countConversations;i++){
-            $("#conversation"+i).removeClass('bg-success').addClass('bg-secondary');
+          for(k=0;k<countConversations;k++){
+            $("#conversation"+k).removeClass('bg-success').addClass('bg-secondary');
           }
           var $clicked=$(this);
           $clicked.removeClass('bg-secondary').addClass('bg-success');
 
-          getMessagesCurrentUserSelected();
+          currentRecipient=$.trim($(this).find("h5").text());
+          currentMessages=0;
+          $('#messageCollection').contents(':not(form)').remove();
         });
         countConversations++;
       }
@@ -93,5 +99,34 @@ function createConversation(){
   }
 }
 function getMessagesCurrentUserSelected(){
-  console.log("getting messages");
+  var username1=$("#sessionusername").text();
+  var username2=currentRecipient;
+  if(!username2==""){
+    $.ajax({
+    url:'pages/ajax/getmessages.php',
+    method:'post',
+    data:{username1:username1,username2:username2},
+    success:function(data){
+      var content = JSON.parse(data);
+      for(i=0;i<content.length;i++){
+        var checkMessageExists=false;
+        for(j=0;j<countMessages;j++){
+          if($("#message"+j+" #message").text()==content[i].message && $("#message"+j+" #time").text()==content[i].time){
+            checkMessageExists=true;
+          }
+        }
+        if(checkMessageExists==false){
+          if(content[i].userSource==username1){
+            $('#messageCollection').append('<div id="message'+countMessages+'" class="row no-gutters justify-content-end" style="padding-top:20px;padding-bottom:60px;"><div class="col-4 bg-primary" style="margin-right:2%; border-radius: 5px;"><div id="message">'+content[i].message+'</div><div id="time">'+content[i].time+'</div></div></div>');
+          }else{
+            $('#messageCollection').append('<div id="message'+countMessages+'" class="row no-gutters justify-content-start" style="padding-top:20px;padding-bottom:60px;"><div class="col-4 bg-secondary" style="margin-left:2%;border-radius: 5px;"><div id="message">'+content[i].message+'</div><div id="time">'+content[i].time+'</div></div></div>');
+          }
+          countMessages++;
+        }
+      }
+    },error:function(data){
+      console.log("error");
+    }
+    });
+  }
 }

@@ -6,7 +6,7 @@ Access chatroom using correct login and password. The login and password 'admin'
 
 ## Suscribe page
 
-Create a new unique user with the following fields: username, name, e-mail, and password.
+Create a new unique user with the following fields: username, name, e-mail, and password. Username is case sensitive.
 
 ## Chat page
 
