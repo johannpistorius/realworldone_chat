@@ -14,11 +14,6 @@
 			$results= $this-> executeRequest($sql);
 			return $results;
 		}
-		public function getOnlineStatus($username){
-			$sql = "Select onlinestatus from users where username='$username'";
-			$results= $this-> executeRequest($sql);
-			return $results;
-		}
 		public function setOnlineStatus($username, $status){
 			$sql = "Update users set onlinestatus='$status' where username='$username'";
 			$results= $this-> executeRequest($sql);
