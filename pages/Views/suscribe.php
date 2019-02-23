@@ -1,25 +1,26 @@
 <?php
   $title="Suscribe";
 ?>
+  <script type="text/javascript" src="js/checkusernameuniqueness.js"></script>
   <div class="container bg-info mt-5">
-    <form action="?action=suscribe" method="post" class="px-4 py-3">
+    <form method="post" class="px-4 py-3">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" class="form-control" name="username" placeholder="Enter your username" required>
+          <input id="username" type="text" class="form-control" name="username" placeholder="Enter your username" required>
         </div>
         <div class="form-group">
           <label>Name</label>
-          <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+          <input id="name" type="text" class="form-control" name="name" placeholder="Enter your name" required>
         </div>
         <div class="form-group">
           <label>E-mail</label>
-          <input type="text" class="form-control" name="email" placeholder="Enter your e-mail" required>
+          <input id="email" type="text" class="form-control" name="email" placeholder="Enter your e-mail" required>
         </div>
         <div class="form-group">
           <label>Pasword</label>
-          <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
+          <input id="password" type="password" class="form-control" name="password" placeholder="Enter your password" required>
         </div>
-        <input type="submit" value="Suscribe" class="btn btn-warning send">
+        <input id="createUser" type="button" value="Suscribe" class="btn btn-warning send">
     </form>
   </div>
 <?php

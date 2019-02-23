@@ -7,16 +7,19 @@ html,body{
 #messagearea{
   margin-bottom:0 !important;
 }
-#messages{
+#messageCollection{
   overflow-y: auto;
+  overflow-x: hidden;
+  height:100%;
+}
+#conversationCollection{
+  overflow-y: auto;
+  overflow-x: hidden;
+  height:100%;
 }
 .connected{
   color:green;
 }
 .disconnected{
   color:red;
-}
-#conversationCollection{
-  overflow-x: hidden;
-  overflow-y: auto;
 }

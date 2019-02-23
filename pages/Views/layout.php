@@ -16,6 +16,6 @@
 	</HEAD>
 	<BODY class="bg-dark">
     <?php require("pages/Views/header.php"); ?>
-		<section><?php echo $content ?> </section>
+		<section id="bodysection"><?php echo $content ?> </section>
 	</BODY>
 </HTML>

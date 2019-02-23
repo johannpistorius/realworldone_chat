@@ -24,10 +24,6 @@
 			session_destroy();
 			require("pages/Views/login.php");
 		}
-		else if($_GET["action"]=="suscribe"){
-			$manager->createUser($_POST["username"],$_POST["name"],$_POST["email"],$_POST["password"]);
-			require("pages/Views/login.php");
-		}
 		else if($_GET["action"]=="loginpage"){
 				require("pages/Views/login.php");
 		}
