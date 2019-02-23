@@ -9,7 +9,7 @@
 				if(ISSET($_SESSION["user"])){
 					echo '<li class="nav-item">';
 						echo '<span class="navbar-text">';
-				      echo 'Hello, '.$_SESSION["user"]. '!';
+				      echo 'Hello, <span id="sessionusername">'.$_SESSION["user"].'</span> !';
 				    echo '</span>';
 		      echo '</li>';
 		      echo '<li class="nav-item">';
