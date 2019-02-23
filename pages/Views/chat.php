@@ -14,9 +14,9 @@
 			</div>
 			<div class="col-8 bg-dark" id="messageCollection">
 				<form class="input-group input-group-lg position-absolute fixed-bottom bg-white">
-					<input type="text" class="form-control" placeholder="Enter you message" aria-label="text" aria-describedby="basic-addon2"></textarea>
+					<input id="messagetext" type="text" class="form-control" placeholder="Enter you message" aria-label="text" aria-describedby="basic-addon2"></textarea>
 					<div class="input-group-append">
-				  	<input class="btn btn-outline-success" type="submit">
+				  	<button id="sendMessage" class="btn btn-outline-success" type="button">
 					</div>
 				</form>
 
