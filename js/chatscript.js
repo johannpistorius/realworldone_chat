@@ -131,7 +131,7 @@ function getMessagesCurrentUserSelected(){
         }
         if(checkMessageExists==false){
           //sentiment analysis
-          var emotionscore=0;
+          var emotionscore=0.0;
           var s=content[i].message.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
           var stringwithoutpunctuation = s.replace(/\s{2,}/g," ");
           var messagewords=stringwithoutpunctuation.split(" ");
@@ -142,18 +142,19 @@ function getMessagesCurrentUserSelected(){
               }
             }
           }
-          emotionscore=emotionscore/(messagewords.length);
-          if(emotionscore>-2 && emotionscore<2){
-            console.log(":|");
-          }else if(emotionscore<=-1){
-            console.log(":(");
-          }else{
-            console.log(":(");
-          }
+          emotionscore=(emotionscore*2)/(messagewords.length);
           if(content[i].userSource==username1){
             $('#messageCollection').append('<div id="message'+countMessages+'" class="row no-gutters justify-content-end" style="padding-top:20px;padding-bottom:60px;"><div class="col-4 bg-primary" style="margin-right:2%; border-radius: 5px;"><div id="message" class="font-weight-bold">'+content[i].message+'</div><div id="time">'+content[i].time+'</div></div></div>');
           }else{
             $('#messageCollection').append('<div id="message'+countMessages+'" class="row no-gutters justify-content-start" style="padding-top:20px;padding-bottom:60px;"><div class="col-4 bg-secondary" style="margin-left:2%;border-radius: 5px;"><div id="message" class="font-weight-bold">'+content[i].message+'</div><div id="time">'+content[i].time+'</div></div></div>');
+          }
+
+          if(emotionscore>-0.5 && emotionscore<0.5){
+            $("#message"+countMessages+" .col-4").append('<i class="fas fa-meh"></i>');
+          }else if(emotionscore<=-0.5){
+            $("#message"+countMessages+" .col-4").append('<i class="fas fa-frown"></i>');
+          }else{
+            $("#message"+countMessages+" .col-4").append('<i class="fas fa-smile"></i>');
           }
           countMessages++;
         }
@@ -173,7 +174,18 @@ function sendMessage(){
   success:function(data){
     var conversationid=data;
     console.log(conversationid);
-    var message=$('#messagetext').val();
+    var initmessage=$('#messagetext').val();
+    var str=initmessage.split("'");
+    if(str.length>1){
+      var message="";
+      for(i=0;i<str.length-1;i++){
+        message=message+str[i]+"''"+str[i+1];
+      }
+      console.log(message);
+    }else{
+      message=initmessage;
+    }
+
     Number.prototype.padLeft = function(base,chr){
       var  len = (String(base || 10).length - String(this).length)+1;
       return len > 0? new Array(len).join(chr || '0')+this : this;
