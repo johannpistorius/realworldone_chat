@@ -14,7 +14,7 @@ Create new conversations with existing users (only one conversation per user). A
 You can test the different functionalities with the users 'mary' and 'john'.
 
 Sentiment Analysis: AFINN-111: Newest version with 2477 words and phrases.
-'''
+'''bash
 An evaluation of the word list is available in:
 
 Finn Årup Nielsen, "A new ANEW: Evaluation of a word list for
