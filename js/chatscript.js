@@ -1,8 +1,10 @@
 var countConversations=0;
 var countMessages=0;
 var currentRecipient="";
+var sentiment;
 
 window.addEventListener("load",function(){
+  preloadSentimentAnalysisFile();
   checkOnlineStatus();
   getConversations();
   getMessagesCurrentUserSelected();
@@ -10,6 +12,17 @@ window.addEventListener("load",function(){
   document.getElementById("createConversation").addEventListener("click",createConversation);
   document.getElementById("sendMessage").addEventListener("click",sendMessage);
 });
+function preloadSentimentAnalysisFile(){
+  $.ajax({
+    url:'pages/ajax/parseafinn.php',
+    method:'post',
+    success:function(data){
+      sentiment=JSON.parse(data);
+    },error:function(data){
+      console.log("error");
+    }
+    });
+}
 function refresh(){
   checkOnlineStatus();
   getConversations();
@@ -117,6 +130,26 @@ function getMessagesCurrentUserSelected(){
           }
         }
         if(checkMessageExists==false){
+          //sentiment analysis
+          var emotionscore=0;
+          var s=content[i].message.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+          var stringwithoutpunctuation = s.replace(/\s{2,}/g," ");
+          var messagewords=stringwithoutpunctuation.split(" ");
+          for(j=0;j<messagewords.length;j++){
+            for(k=0;k<sentiment.length;k++){
+              if(sentiment[k].word==messagewords[j].toLowerCase()){
+                emotionscore=emotionscore+parseInt(sentiment[k].weight);
+              }
+            }
+          }
+          emotionscore=emotionscore/(messagewords.length);
+          if(emotionscore>-2 && emotionscore<2){
+            console.log(":|");
+          }else if(emotionscore<=-1){
+            console.log(":(");
+          }else{
+            console.log(":(");
+          }
           if(content[i].userSource==username1){
             $('#messageCollection').append('<div id="message'+countMessages+'" class="row no-gutters justify-content-end" style="padding-top:20px;padding-bottom:60px;"><div class="col-4 bg-primary" style="margin-right:2%; border-radius: 5px;"><div id="message" class="font-weight-bold">'+content[i].message+'</div><div id="time">'+content[i].time+'</div></div></div>');
           }else{

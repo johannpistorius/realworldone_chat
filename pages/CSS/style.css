@@ -17,6 +17,9 @@ html,body{
   overflow-x: hidden;
   height:100%;
 }
+#conversationCollection div{
+  cursor:pointer;
+}
 .connected{
   color:green;
 }
