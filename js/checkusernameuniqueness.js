@@ -1,6 +1,17 @@
 window.addEventListener("load",function(){
   document.getElementById("createUser").addEventListener("click",createUser);
 });
+/**
+* Create a new user.
+*
+* Gets all values for username, name, email, password from inputs.
+* The function first calls userExistance.php to check uniqueness of username.
+* Then, if unique, the function calls createuser.php to create the user.
+*
+* @fires createuser.php
+*
+* @listens "click":"createUser"
+*/
 function createUser(){
   var username=$('#username').val();
   var name=$('#name').val();

@@ -12,6 +12,13 @@ window.addEventListener("load",function(){
   document.getElementById("createConversation").addEventListener("click",createConversation);
   document.getElementById("sendMessage").addEventListener("click",sendMessage);
 });
+/**
+* Load contents of AFINN-111.txt
+*
+* The contents of the file will be stored as a JSON.
+*
+* @fires parseafinn.php
+*/
 function preloadSentimentAnalysisFile(){
   $.ajax({
     url:'pages/ajax/parseafinn.php',
@@ -23,12 +30,26 @@ function preloadSentimentAnalysisFile(){
     }
     });
 }
+/**
+* Calls different functions for the purpose of refreshing them.
+*
+* The refresh rate at which this function is called can be changed
+* in the setInterval.
+*
+* @fires checkOnlineStatus
+* @fires getConversations
+* @fires getMessagesCurrentUserSelected
+*/
 function refresh(){
   checkOnlineStatus();
   getConversations();
   getMessagesCurrentUserSelected();
 }
-
+/**
+* Check online status of users.
+*
+* @fires checkIndividualOnlineStatus
+*/
 function checkOnlineStatus(){
   var count=$("#conversationCollection div").length;
   var username="";
@@ -37,6 +58,14 @@ function checkOnlineStatus(){
     checkIndividualOnlineStatus(username,i);
   }
 }
+/**
+* Checks and updates online status.
+*
+* @fires onlinestatus.php
+*
+* @param {String} username
+* @param {int} i number of the conversation.
+*/
 function checkIndividualOnlineStatus(username,i){
   $.ajax({
   url:'pages/ajax/onlinestatus.php',
@@ -53,6 +82,13 @@ function checkIndividualOnlineStatus(username,i){
   }
   });
 }
+/**
+* Get the different conversations with the other users.
+*
+* If a new conversation has been detected, this function will update the conversation list.
+*
+* @fires getrecipient.php
+*/
 function getConversations(){
   var username=$("#sessionusername").text();
   $.ajax({
@@ -71,6 +107,14 @@ function getConversations(){
       }
       if(checkConversationExists==false){
         $('#conversationCollection').append('<div id="conversation'+countConversations+'" class="row bg-secondary border-bottom border-dark"><a href=# style="text-decoration:none; padding-left:5%;" class="text-light"><h5><i class="fas fa-circle disconnected"></i> '+recipient+'</h5></a></div>');
+        /**
+        * Specifies what happens when a conversation is clicked.
+        *
+        * Highlight current conversation. Sets current recipient. Clears messages from
+        * center console.
+        *
+        * @listens "click":"conversation"+id
+        */
         document.getElementById("conversation"+countConversations).addEventListener("click",function(){
           for(k=0;k<countConversations;k++){
             $("#conversation"+k).removeClass('bg-success').addClass('bg-secondary');
@@ -90,28 +134,14 @@ function getConversations(){
   }
   });
 }
-function createConversation(){
-  var username1=$("#sessionusername").text();
-  var username2=$('#inputtext').val();
-  var checkConversationExists=false;
-  for(i=0;i<countConversations;i++){
-    if($.trim($("#conversation"+i+" a h5").text())==username2){
-      checkConversationExists=true;
-    }
-  }
-  if(checkConversationExists==false){
-    $.ajax({
-    url:'pages/ajax/createconversation.php',
-    method:'post',
-    data:{username1:username1,username2:username2},
-    success:function(data){
-      countConversations++;
-    },error:function(data){
-      console.log("error");
-    }
-    });
-  }
-}
+/**
+* Get the messages corresponding to the selected conversation.
+*
+* If a new message has been detected, this function will update the message list.
+* All new messages will go through sentiment analysis.
+*
+* @fires getmessages.php
+*/
 function getMessagesCurrentUserSelected(){
   var username1=$("#sessionusername").text();
   var username2=currentRecipient;
@@ -165,6 +195,48 @@ function getMessagesCurrentUserSelected(){
     });
   }
 }
+/**
+* Create new conversation.
+*
+* Gets username from input. Checks if a conversation already exists with this
+* recipient. If not, create new conversation.
+*
+* @fires createconversation.php
+*
+* @listens "click":"createConversation"
+*/
+function createConversation(){
+  var username1=$("#sessionusername").text();
+  var username2=$('#inputtext').val();
+  var checkConversationExists=false;
+  for(i=0;i<countConversations;i++){
+    if($.trim($("#conversation"+i+" a h5").text())==username2){
+      checkConversationExists=true;
+    }
+  }
+  if(checkConversationExists==false){
+    $.ajax({
+    url:'pages/ajax/createconversation.php',
+    method:'post',
+    data:{username1:username1,username2:username2},
+    success:function(data){
+      countConversations++;
+    },error:function(data){
+      console.log("error");
+    }
+    });
+  }
+}
+/**
+* Send message to selected recipient.
+*
+* Get message from input. Send to appropriate conversation.
+*
+* @fires getconversationid.php
+* @fires sendmessage.php
+*
+* @listens "click":"sendMessage"
+*/
 function sendMessage(){
   var userSource=$("#sessionusername").text();
   $.ajax({
@@ -173,7 +245,6 @@ function sendMessage(){
   data:{username1:userSource,username2:currentRecipient},
   success:function(data){
     var conversationid=data;
-    console.log(conversationid);
     var initmessage=$('#messagetext').val();
     var str=initmessage.split("'");
     if(str.length>1){
@@ -181,7 +252,6 @@ function sendMessage(){
       for(i=0;i<str.length-1;i++){
         message=message+str[i]+"''"+str[i+1];
       }
-      console.log(message);
     }else{
       message=initmessage;
     }
@@ -197,7 +267,6 @@ function sendMessage(){
               [d.getHours().padLeft(),
                d.getMinutes().padLeft(),
                d.getSeconds().padLeft()].join(':');
-    console.log(time);
     $.ajax({
     url:'pages/ajax/sendmessage.php',
     method:'post',
